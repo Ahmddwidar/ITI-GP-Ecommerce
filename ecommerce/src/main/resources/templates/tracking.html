@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" class="no-js">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" th:href="@{/img/icon.png}" />
+    <title>Waxen</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- intl-tel-input CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css">
+
+    <!-- ============================================= -->
+    <link rel="stylesheet" th:href="@{/css/linearicons.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/themify-icons.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/owl.carousel.css}">
+    <link rel="stylesheet" th:href="@{/css/nice-select.css}">
+    <link rel="stylesheet" th:href="@{/css/nouislider.min.css}">
+    <link rel="stylesheet" th:href="@{/css/ion.rangeSlider.css}">
+    <link rel="stylesheet" th:href="@{/css/ion.rangeSlider.skinFlat.css}">
+    <link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+
+
+    <style>
+        .navbar-brand img {
+            max-width: 60%;
+            /* Prevents the image from overflowing its container */
+            height: auto;
+        }
+
+        .navbar-brand {
+            max-width: 30%;
+            /* Prevents the image from overflowing its container */
+            height: auto;
+        }
+
+        /* Style for suggestions dropdown */
+        #suggestions {
+            display: none;
+            /* Initially hidden */
+            position: absolute;
+            top: 100%;
+            /* Aligns directly below the input box */
+            left: 0;
+            width: 100%;
+            /* Matches input width */
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-top: none;
+            /* Avoid double border with input */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            z-index: 1000;
+            max-height: 200px;
+            /* Limits height */
+            overflow-y: auto;
+            /* Adds scroll if suggestions exceed max height */
+        }
+
+        #suggestions li {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+
+        #suggestions li:last-child {
+            border-bottom: none;
+            /* Removes border from last item */
+        }
+
+        #suggestions li:hover {
+            background-color: #f5f5f5;
+        }
+
+        .single-footer-widget p {
+            text-align: justify;
+        }
+
+        .single-footer-widget p {
+            text-align: justify;
+        }
+
+        .waxen8 {
+            padding-top: 250px;
+        }
+
+
+
+        .tracking_box_inner {
+    background-color: #f9f9f9; /* Light background for contrast */
+    padding: 20px;
+    border-radius: 10px; /* Smooth rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+.tracking-info, .recent-order-info, .other-order-info {
+    font-family: 'Arial', sans-serif; /* Clean, modern font */
+    color: #333; /* Darker color for readability */
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.tracking-info {
+    font-weight: 600; /* Slightly bold for emphasis */
+    color: #2c3e50; /* Custom color for distinction */
+    text-align: center; /* Center-align for better focus */
+    background: #e6f7ff; /* Subtle background color */
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.recent-order-info, .other-order-info {
+    font-style: italic;
+    color: #191c1c; /* Slightly muted color */
+    display: block;
+    margin-bottom: 5px;
+}
+
+#result {
+    color: #e74c3c; /* Noticeable color for result text */
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.recent-order-info,
+#order-id {
+    display: inline;
+    font-weight: bold;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+    /* mile stone style*/
+        /* Timeline container */
+        .timeline {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px;
+            max-width: 800px;
+            margin: 50px auto;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Continuous progress bar background */
+        .progress-bar {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(to right, #d3e2f1, #e6ecf5);
+            transform: translateY(-50%);
+            z-index: -1;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Filled portion of the progress bar */
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #5b9bd5, #3b73a6); /* Blue gradient */
+            width: 0; /* Set dynamically */
+            transition: width 0.6s ease;
+        }
+
+        /* Milestone container */
+        .milestone {
+            text-align: center;
+            position: relative;
+            width: 120px; /* Consider making this responsive */
+        }
+
+        /* Circular indicator for each milestone */
+        .milestone-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #d3e2f1;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 22px;
+            box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
+            transition: background-color 0.4s, transform 0.3s ease;
+        }
+
+        /* Active milestone style */
+        .milestone.active .milestone-circle {
+            background-color: #5b9bd5;
+            transform: scale(1.1);
+        }
+
+        /* Milestone icon */
+        .milestone i {
+            font-size: 20px;
+        }
+
+        /* Milestone label */
+        .milestone-label {
+            margin-top: 12px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Tooltip for status label */
+        .tooltip {
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #5b9bd5;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .milestone.active .tooltip {
+            opacity: 1;
+        }
+
+
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Start Header Area -->
+    <header class="header_area sticky-header">
+        <div class="main_menu">
+            <nav class="navbar navbar-expand-lg navbar-light main_box">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <a class="navbar-brand logo_h" href="/home"><img src="/img/waxen.jpg" alt=""></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav menu_nav ml-auto">
+                            <li class="nav-item"><a class="nav-link" href="/home">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/shop">Shop</a></li>
+                            <li class="nav-item submenu dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                    aria-haspopup="true" aria-expanded="false">Account</a>
+                                <ul class="dropdown-menu" id="dropdown-menu-auth"></ul>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="nav-item"><a href="/cart" class="cart"><span class="ti-shopping-cart"></span></a>
+                            </li>
+                            <li class="nav-item">
+                                <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="search_input" id="search_input_box">
+            <div class="container">
+                <form class="d-flex justify-content-between" onsubmit="">
+                    <input type="text" class="form-control" id="search_input" placeholder="Search Here"
+                        oninput="showSuggestions(this.value)">
+                    <button type="submit" class="btn"></button>
+                    <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
+                </form>
+                <!-- Suggestions List -->
+                <ul id="suggestions"></ul>
+            </div>
+
+        </div>
+    </header>
+    <!-- End Header Area -->
+
+    <!-- Start Banner Area -->
+    <!-- <section class="banner-area organic-breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col-first">
+                    <h1>Order Tracking</h1>
+                    <nav class="d-flex align-items-center">
+                        <a href="/home">Home<span class="lnr lnr-arrow-right"></span></a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section> -->
+    <!-- End Banner Area -->
+
+    <!--================Tracking Box Area =================-->
+    <section class="tracking_box_area section_gap  waxen8">
+        <div class="container">
+
+
+            <div class="timeline">
+                <!-- Continuous progress bar -->
+                <div class="progress-bar">
+                    <div class="progress-bar-fill"></div>
+                </div>
+
+                <!-- Milestones -->
+                <div class="milestone active">
+                    <div class="milestone-circle"><i class="fas fa-box"></i></div>
+                    <div class="milestone-label">Placed</div>
+                    <div class="tooltip">Order Placed</div>
+                </div>
+                <div class="milestone active">
+                    <div class="milestone-circle"><i class="fas fa-shipping-fast"></i></div>
+                    <div class="milestone-label">Shipped</div>
+                    <div class="tooltip">Order Shipped</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-circle"><i class="fas fa-truck"></i></div>
+                    <div class="milestone-label">Out for Delivery</div>
+                    <div class="tooltip">Out for Delivery</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-circle"><i class="fas fa-check-circle"></i></div>
+                    <div class="milestone-label">Delivered</div>
+                    <div class="tooltip">Order Delivered</div>
+                </div>
+            </div>
+
+
+            <div class="tracking_box_inner d-flex flex-column align-items-center text-center p-4 border rounded bg-light">
+                <p class="tracking-info">To track your order, please enter your Order ID and Billing Email in the fields below.</p>
+                <span class="recent-order-info">Your Recent Order ID is: <span id="order-id">#123456</span> </span>
+                <br>
+                <span class="other-order-info">If you want to track another order, please go to the orders page to get the order ID.</span>
+                <br>
+                <form id="trackingForm" class="row tracking_form w-100">
+                    <div class="col-12 form-group mb-3">
+                        <input type="text" class="form-control" id="order" name="orderId" placeholder="Order ID" required>
+                    </div>
+                    <div class="col-12 form-group mb-3">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Billing Email" required>
+                    </div>
+                    
+                    <!-- <div class="col-12 form-group mb-3">
+                        <button type="submit" class="btn btn-primary">Track Order</button>
+                    </div> -->
+
+                    <div class="col-12 form-group mb-3 d-flex justify-content-between">
+                        <!-- Track Order Button -->
+                        <button type="submit" class="btn btn-primary">Track Order</button>
+                        <!-- Back to Profile Button -->
+                        <a href="/user/account" class="btn btn-secondary">Back to Profile</a>
+                    </div>
+
+
+
+                    <div class="col-12 form-group">
+                        <p id="result" style="font-weight: bold;"></p>
+                    </div>
+                </form>
+            </div>
+
+
+
+
+        </div>
+    </section>
+    <!--================End Tracking Box Area =================-->
+
+
+    <!-- start footer Area -->
+    <footer class="footer-area section_gap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+					<div class="single-footer-widget" style="text-align: justify;">
+						<h6>About Us</h6>
+						<p>
+							Welcome to Waxen, where luxury and style meet in every timepiece. We offer a curated selection of world-renowned brands like G-Shock, CASIO, Fossil, ALBA, CITIZEN, TOMMY HILFIGER, NAVIFORCE, and TIMEX.
+							From SPORTY watches for adventurers to CLASSIC and CASUAL designs for everyday elegance, our diverse collections suit every style. Discover SMART technology, PREMIUM craftsmanship, and timeless Analog watches, each embodying quality and individuality.	
+							At Waxen, we’re passionate about excellence—explore our collections and find a watch that’s uniquely yours.
+						</p>
+					</div>
+				</div>
+                <div class="col-lg-4  col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6>Newsletter</h6>
+                        <p>Stay update with our latest</p>
+                        <div class="" id="mc_embed_signup">
+
+                            <form target="_blank" novalidate="true"
+                                action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+                                method="get" class="form-inline">
+
+                                <div class="d-flex flex-row">
+
+                                    <input class="form-control" name="EMAIL" placeholder="Enter Email"
+                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '"
+                                        required="" type="email">
+
+
+                                    <button class="click-btn btn btn-default"><i class="fa fa-long-arrow-right"
+                                            aria-hidden="true"></i></button>
+                                    <div style="position: absolute; left: -5000px;">
+                                        <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value=""
+                                            type="text">
+                                    </div>
+
+                                    <!-- <div class="col-lg-4 col-md-4">
+												<button class="bb-btn btn"><span class="lnr lnr-arrow-right"></span></button>
+											</div>  -->
+                                </div>
+                                <div class="info"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3  col-md-6 col-sm-6">
+                    <div class="single-footer-widget mail-chimp">
+                        <h6 class="mb-20">Instragram Feed</h6>
+                        <ul class="instafeed d-flex flex-wrap">
+                            <li><img src="img/i1.jpg" alt=""></li>
+                            <li><img src="img/i2.jpg" alt=""></li>
+                            <li><img src="img/i3.jpg" alt=""></li>
+                            <li><img src="img/i4.jpg" alt=""></li>
+                            <li><img src="img/i5.jpg" alt=""></li>
+                            <li><img src="img/i6.jpg" alt=""></li>
+                            <li><img src="img/i7.jpg" alt=""></li>
+                            <li><img src="img/i8.jpg" alt=""></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6>Follow Us</h6>
+                        <p>Let us be social</p>
+                        <div class="footer-social d-flex align-items-center">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-dribbble"></i></a>
+                            <a href="#"><i class="fa fa-behance"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
+                <p class="footer-text m-0">
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;
+                    <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is
+                    made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com"
+                        target="_blank">Colorlib</a>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                </p>
+            </div>
+        </div>
+    </footer>
+    <!-- End footer Area -->
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+
+
+
+
+    <script th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+
+    <!-- End footer Area -->
+    <script th:src="@{/js/vendor/bootstrap.min.js}"></script>
+    <script th:src="@{/js/jquery.ajaxchimp.min.js}"></script>
+    <script th:src="@{/js/jquery.nice-select.min.js}"></script>
+    <script th:src="@{/js/jquery.sticky.js}"></script>
+    <script th:src="@{/js/nouislider.min.js}"></script>
+    <script th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+    <script th:src="@{/js/owl.carousel.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+
+
+
+    <script>
+        const orderId = sessionStorage.getItem('orderId');
+        console.log("Order ID:", orderId);
+        document.getElementById("order-id").innerText = orderId;
+        document.getElementById("order").value = orderId;
+
+        // Milestone elements
+        const milestones = document.querySelectorAll('.milestone');
+        const progressBarFill = document.querySelector('.progress-bar-fill');
+        // Add 'active' class only to milestones up to the current status
+        const statuses = ['Placed', 'Shipped', 'Out_for_delivery', 'Delivered'];
+        statuses.forEach((status, index) => {
+            milestones[index].classList.remove('active');
+        });
+    </script>
+    <script>
+
+
+        function updateOrderStatus(status){
+            // Current order status: 'placed', 'shipped', 'out_for_delivery', 'delivered'
+            const orderStatus = status;
+
+            // Milestone elements
+            const milestones = document.querySelectorAll('.milestone');
+            const progressBarFill = document.querySelector('.progress-bar-fill');
+
+            // Map statuses to milestone completion levels
+            const statusMap = {
+                'Canceled': 0,
+                'Pending': 0,
+                'Placed': 25,
+                'Shipped': 50,
+                'Out_for_delivery': 75,
+                'Delivered': 100
+            };
+
+            // Set progress fill width based on order status
+            progressBarFill.style.width = statusMap[orderStatus] + '%';
+
+            // Add 'active' class only to milestones up to the current status
+            const statuses = ['Placed', 'Shipped', 'Out_for_delivery', 'Delivered'];
+            statuses.forEach((status, index) => {
+                if (statuses.indexOf(orderStatus) >= index) {
+                    milestones[index].classList.add('active');
+                } else {
+                    milestones[index].classList.remove('active');
+                }
+            });
+
+        }
+
+        $(document).ready(function () {
+            // Intercept form submission
+            $('#trackingForm').on('submit', function (e) {
+                e.preventDefault();  // Prevent the form from submitting normally
+
+                // Retrieve form data
+                const orderId = $('#order').val();
+                const email = $('#email').val();
+
+                // Clear previous results
+                $('#result').text('');
+
+                // Create payload
+                const payload = {
+                    orderId: orderId,
+                    email: email
+                };
+                console.log(payload);
+
+                // AJAX request
+                $.ajax({
+                    url: '/orders/tracking',  // Replace with your backend endpoint
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(payload),
+                    success: function (data) {
+                        console.log(data);
+                        // Display success message or result
+                        $('#result').text(`Order status: ${data.orderStatus}`);
+                        updateOrderStatus(data.orderStatus);
+                    },
+                    error: function () {
+                        // Handle error and display message
+                        $('#result').text('Failed to retrieve order. Please try again.');
+                    }
+                });
+            });
+        });
+
+       
+        $(document).ready(function () {
+            checkAuthStatus();
+            $('#search_input').on('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // Prevents the form submission if search is inside a form
+                    selectSuggestion($('#search_input').val())
+                }
+            });
+        });
+
+        function checkAuthStatus() {
+            $.ajax({
+                url: '/auth/status',
+                type: 'GET',
+                success: function (response) {
+                    if (response.authenticated) {
+                        // User is authenticated
+                        $('#dropdown-menu-auth').html(`
+                        <li class="nav-item"><a class="nav-link" href="/user/account">My-Account</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+                    `);
+                    } else {
+                        // User is not authenticated
+                        $('#dropdown-menu-auth').html(`
+                        <li class="nav-item"><a class="nav-link" href="/auth/login">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/auth/registeration">Register</a></li>
+                    `);
+                    }
+                },
+                error: function (error) {
+                    console.error('Error checking authentication status:', error);
+                }
+            });
+        }
+
+
+        // Function to fetch and display suggestions as user types
+        function showSuggestions(query) {
+            const suggestionList = $('#suggestions').empty();
+            if (query.length < 2) {
+                $('#suggestions').hide();
+                return;
+            }
+
+            $.ajax({
+                url: '/products/search',  // Endpoint for suggestions
+                type: 'GET',
+                data: { name: query },
+                success: function (suggestions) {
+                    console.log(suggestions)
+                    if (suggestions.length === 0) {
+                        suggestionList.hide();
+                        return;
+                    }
+                    suggestions.forEach(suggestion => {
+                        suggestionList.append(`<li onclick="selectSuggestion('${suggestion.name}')">${suggestion.name}</li>`);
+                    });
+                    suggestionList.show();
+                }
+            });
+        }
+
+
+        // Function to set suggestion in search input
+        function selectSuggestion(suggestion) {
+            console.log(suggestion)
+            $('#search_input').val(suggestion);
+            $('#suggestions').hide();
+            window.location.href = '/shop?param=' + suggestion
+            // performSearch()
+        }
+
+    </script>
+
+
+
+
+
+</body>
+
+</html>
