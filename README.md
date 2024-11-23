@@ -38,9 +38,9 @@ The following diagram represents the Entity-Relationship Diagram (ERD) for the a
 The project follows a well-structured architecture pattern:
 
 - **Model-View-Controller (MVC)**: The application separates concerns using the MVC pattern, where:
-    - **Model**: Represents the data and business logic (Entities, Services).
+    - **Model**: Represents the data and business logic (Entities, DTOs).
     - **View**: The frontend that displays data to the user (HTML, CSS, JavaScript).
-    - **Controller**: Manages user requests and responses (Spring Controllers).
+    - **Controller**: Manages user requests and responses (Spring Controllers , services).
 
 - **Client-Server Architecture**: The application uses a client-server architecture, where:
     - The **client** (frontend) interacts with the **server** (backend) to fetch and manipulate data.
